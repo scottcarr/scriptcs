@@ -125,4 +125,5 @@
     <Error Condition="!Exists('..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets'))" />
   </Target>
   <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
+  <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
 </Project>
