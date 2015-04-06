@@ -127,4 +127,5 @@
   <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
   <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
   <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
+  <Import Project="$(ProjectDir)\Common.CodeContracts.props" />
 </Project>
