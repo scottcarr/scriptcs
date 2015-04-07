@@ -1,7 +1,8 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Runtime.Versioning;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs.ReplCommands
 {
@@ -18,6 +19,13 @@ namespace ScriptCs.ReplCommands
             ILog logger,
             IInstallationProvider installationProvider)
         {
+            #region CodeContracts 
+            Contract.Ensures(packageInstaller == this._packageInstaller); // Suggested By ReviewBot 
+            Contract.Ensures(packageAssemblyResolver == this._packageAssemblyResolver); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            Contract.Ensures(installationProvider == this._installationProvider); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("packageInstaller", packageInstaller);
             Guard.AgainstNullArgument("packageAssemblyResolver", packageAssemblyResolver);
             Guard.AgainstNullArgument("logger", logger);
@@ -31,16 +39,39 @@ namespace ScriptCs.ReplCommands
 
         public string Description
         {
-            get { return "Installs a Nuget package. I.e. :install <package> <version>"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"Installs a Nuget package. I.e. :install <package> <version>"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "Installs a Nuget package. I.e. :install <package> <version>";
+            }
         }
 
         public string CommandName
         {
-            get { return "install"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"install"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "install";
+            }
         }
 
         public object Execute(IRepl repl, object[] args)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Object>() == null); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length == 0) || this._installationProvider != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length == 0) || this._packageInstaller != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length == 0) || this._packageAssemblyResolver != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length == 0) || repl != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length == 0) || this._logger != null)); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("repl", repl);
 
             if (args == null || args.Length == 0)

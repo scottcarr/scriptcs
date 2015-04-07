@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -15,6 +16,16 @@ namespace ScriptCs
 
         public FileSystemMigrator(IFileSystem fileSystem, ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._directoryCopies != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._fileCopies != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._directoryMoves != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("fileSystem", fileSystem);
             Guard.AgainstNullArgument("logger", logger);
 
@@ -41,6 +52,12 @@ namespace ScriptCs
 
         public void Migrate()
         {
+            #region CodeContracts 
+            Contract.Ensures(System.Linq.Enumerable.Count(this._fileCopies) == this._fileCopies.Count); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= System.Linq.Enumerable.Count(this._fileCopies)); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= this._fileCopies.Count); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             foreach (var copy in _fileCopies
                 .Where(copy => _fileSystem.FileExists(copy.Value)))
             {

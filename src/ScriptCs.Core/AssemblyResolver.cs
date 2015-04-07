@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -21,6 +22,17 @@ namespace ScriptCs
             IAssemblyUtility assemblyUtility,
             ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._assemblyPathCache != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._assemblyPathCache.Count == 0); // Suggested By ReviewBot 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            Contract.Ensures(packageAssemblyResolver == this._packageAssemblyResolver); // Suggested By ReviewBot 
+            Contract.Ensures(assemblyUtility == this._assemblyUtility); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("fileSystem", fileSystem);
             Guard.AgainstNullArgumentProperty("fileSystem", "PackagesFolder", fileSystem.PackagesFolder);
             Guard.AgainstNullArgumentProperty("fileSystem", "BinFolder", fileSystem.BinFolder);
@@ -45,7 +57,7 @@ namespace ScriptCs
                 assemblies = GetPackageAssemblyNames(path).Union(GetBinAssemblyPaths(path)).ToList();
                 _assemblyPathCache.Add(path, assemblies);
             }
-           
+
             return binariesOnly
                 ? assemblies.Where(m =>
                     m.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ||

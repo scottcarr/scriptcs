@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -26,9 +27,18 @@ namespace ScriptCs
             IEnumerable<IReplCommand> replCommands)
             : base(fileSystem, filePreProcessor, scriptEngine, logger, composer)
         {
-            _scriptArgs = scriptArgs;
-            _serializer = serializer;
-            Console = console;
+            #region CodeContracts 
+            Contract.Requires(fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(this.Commands != null); // Suggested By ReviewBot 
+            Contract.Ensures(scriptArgs == this._scriptArgs); // Suggested By ReviewBot 
+            Contract.Ensures(serializer == this._serializer); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= this.Commands.Count); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
+            // SCOTT: shouldn't these 3 be null checked?
+            _scriptArgs = scriptArgs; // this is fine if ScriptEngine.Execute always null checks. this is actually safe because the null check happens in ScriptPackManager
+            _serializer = serializer; // this should definitely be null checked
+            Console = console;  // this should definitely be null checked
             Commands = replCommands != null ? replCommands.Where(x => x.CommandName != null).ToDictionary(x => x.CommandName, x => x) : new Dictionary<string, IReplCommand>();
         }
 
@@ -40,6 +50,10 @@ namespace ScriptCs
 
         public override void Terminate()
         {
+            #region CodeContracts 
+            Contract.Ensures(this.Console != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             base.Terminate();
             Logger.Debug("Exiting console");
             Console.Exit();
@@ -47,6 +61,11 @@ namespace ScriptCs
 
         public override ScriptResult Execute(string script, params string[] scriptArgs)
         {
+            #region CodeContracts 
+            Contract.Ensures(((ScriptCs.Repl)this).Console != null); // Suggested By ReviewBot 
+            Contract.Assume(script != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("script", script);
             try
             {
@@ -104,7 +123,7 @@ namespace ScriptCs
                 }
 
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                
+
                 InjectScriptLibraries(FileSystem.CurrentDirectory, preProcessResult, ScriptPackSession.State);
 
                 Buffer = (Buffer == null)
@@ -172,11 +191,19 @@ namespace ScriptCs
 
         private static string GetInvalidCommandArgumentMessage(string argument)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return string.Format(CultureInfo.InvariantCulture, "Argument is not a valid expression: {0}", argument);
         }
 
         private ScriptResult ProcessCommandResult(object commandResult)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<ScriptCs.Contracts.ScriptResult>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Buffer = null;
 
             if (commandResult != null)

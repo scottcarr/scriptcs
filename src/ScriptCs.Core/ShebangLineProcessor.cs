@@ -1,4 +1,5 @@
 using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -10,11 +11,22 @@ namespace ScriptCs
     {
         protected override string DirectiveName
         {
-            get { return "!/usr/bin/env"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"!/usr/bin/env"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "!/usr/bin/env";
+            }
         }
 
         protected override bool ProcessLine(IFileParser parser, FileParserContext context, string line)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Boolean>() == true); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return true;
         }
     }

@@ -1,5 +1,6 @@
-﻿using ScriptCs.Contracts;
+using ScriptCs.Contracts;
 using System.Text;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -11,7 +12,14 @@ namespace ScriptCs
 
         public string ScriptLibrariesFile
         {
-            get { return string.Empty; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == string.Empty); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return string.Empty;
+            }
         }
     }
 }

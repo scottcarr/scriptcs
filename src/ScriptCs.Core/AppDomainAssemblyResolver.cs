@@ -1,9 +1,10 @@
-﻿using ScriptCs.Logging;
+using ScriptCs.Logging;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using ScriptCs.Contracts;
 using System.IO;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -23,6 +24,15 @@ namespace ScriptCs
             IDictionary<string, AssemblyInfo> assemblyInfoMap = null,
             Func<object, ResolveEventArgs, Assembly> resolveHandler = null)
         {
+            #region CodeContracts 
+            Contract.Requires(fileSystem != null); // Suggested By ReviewBot 
+            Contract.Requires(resolver != null); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            Contract.Ensures(resolver == this._resolver); // Suggested By ReviewBot 
+            Contract.Ensures(assemblyUtility == this._assemblyUtility); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("logger", logger);
             Guard.AgainstNullArgument("fileSystem", fileSystem);
             Guard.AgainstNullArgument("resolver", resolver);
@@ -44,6 +54,10 @@ namespace ScriptCs
 
         internal Assembly AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._assemblyInfoMap != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             AssemblyInfo assemblyInfo;
             var name = new AssemblyName(args.Name);
 
@@ -66,6 +80,11 @@ namespace ScriptCs
 
         public void Initialize()
         {
+            #region CodeContracts 
+            Contract.Ensures(this._resolver != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._fileSystem != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var hostAssemblyPaths = _fileSystem.EnumerateBinaries(_fileSystem.HostBin, SearchOption.TopDirectoryOnly);
             AddAssemblyPaths(hostAssemblyPaths);
 
@@ -78,6 +97,10 @@ namespace ScriptCs
 
         public virtual void AddAssemblyPaths(IEnumerable<string> assemblyPaths)
         {
+            #region CodeContracts 
+            Contract.Requires(assemblyPaths != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("assemblyPaths", assemblyPaths);
 
             foreach (var assemblyPath in assemblyPaths)
@@ -114,6 +137,14 @@ namespace ScriptCs
                     _logger.DebugFormat("Skipping Mapping Native Assembly {0}", assemblyPath);
                 }
             }
+        }
+
+        [ContractInvariantMethod]
+        private void AppDomainAssemblyResolverObjectInvariantMethod()
+        {
+            Contract.Invariant(this._assemblyInfoMap != null); // Suggested By ReviewBot 
+            Contract.Invariant(this._fileSystem != null); // Suggested By ReviewBot 
+            Contract.Invariant(this._resolver != null); // Suggested By ReviewBot 
         }
     }
 }

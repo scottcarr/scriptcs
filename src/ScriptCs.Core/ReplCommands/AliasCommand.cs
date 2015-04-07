@@ -1,5 +1,6 @@
-﻿using System.Linq;
+using System.Linq;
 using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs.ReplCommands
 {
@@ -12,21 +13,53 @@ namespace ScriptCs.ReplCommands
 
         public AliasCommand(IConsole console)
         {
+            // SCOTT: VALID NEW CONTRACTS
+            #region CodeContracts 
+            Contract.Requires(console != null); // Suggested By ReviewBot 
+            Contract.Ensures(console == this._console); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
+            // SCOTT: in other IReplCommands there's a null check here, but here it's missing
             _console = console;
         }
 
         public string Description
         {
-            get { return "Allows you to alias a command with a custom name"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"Allows you to alias a command with a custom name"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "Allows you to alias a command with a custom name";
+            }
         }
 
         public string CommandName
         {
-            get { return "alias"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"alias"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "alias";
+            }
         }
 
         public object Execute(IRepl repl, object[] args)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<System.Object>() == null); // Suggested By ReviewBot 
+            Contract.Assume((args != null || this._console != null)); // Suggested By ReviewBot 
+            Contract.Assume((args.Length == 2 || this._console != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length != 2) || repl != null)); // Suggested By ReviewBot 
+            Contract.Assume(((args == null || args.Length != 2) || repl.Commands != null)); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("repl", repl);
 
             if (args == null || args.Length != 2)
@@ -63,6 +96,12 @@ namespace ScriptCs.ReplCommands
             _console.WriteLine(string.Format("Aliased \"{0}\" as \"{1}\".", commandName, alias));
 
             return null;
+        }
+
+        [ContractInvariantMethod]
+        private void AliasCommandObjectInvariantMethod()
+        {
+            Contract.Invariant(this._console != null); // Suggested By ReviewBot 
         }
     }
 }

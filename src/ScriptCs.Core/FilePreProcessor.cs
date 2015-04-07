@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -17,6 +18,14 @@ namespace ScriptCs
 
         public FilePreProcessor(IFileSystem fileSystem, ILog logger, IEnumerable<ILineProcessor> lineProcessors)
         {
+            // SCOTT: VALID NEW CONTRACTS
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            Contract.Ensures(lineProcessors == this._lineProcessors); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             _fileSystem = fileSystem;
             _logger = logger;
             _lineProcessors = lineProcessors;
@@ -35,6 +44,10 @@ namespace ScriptCs
 
         protected virtual FilePreProcessorResult Process(Action<FileParserContext> parseAction)
         {
+            #region CodeContracts 
+            Contract.Requires(parseAction != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("parseAction", parseAction);
 
             var context = new FileParserContext();
@@ -58,12 +71,28 @@ namespace ScriptCs
 
         protected virtual string GenerateCode(FileParserContext context)
         {
+            #region CodeContracts 
+            Contract.Requires(context != null); // Suggested By ReviewBot 
+            Contract.Requires(context.BodyLines != null); // Suggested By ReviewBot 
+            Contract.Ensures(context.BodyLines != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._fileSystem != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("context", context);
             return string.Join(_fileSystem.NewLine, context.BodyLines);
         }
 
         public virtual void ParseFile(string path, FileParserContext context)
         {
+            #region CodeContracts 
+            Contract.Ensures(context.LoadedScripts != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._logger != null); // Suggested By ReviewBot 
+            Contract.Ensures(1 <= context.LoadedScripts.Count); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= context.LoadedScripts.Count); // Suggested By ReviewBot 
+            Contract.Assume(context != null); // Suggested By ReviewBot 
+            Contract.Assume(context.LoadedScripts != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("path", path);
             Guard.AgainstNullArgument("context", context);
 
@@ -89,6 +118,10 @@ namespace ScriptCs
 
         public virtual void ParseScript(List<string> scriptLines, FileParserContext context)
         {
+            #region CodeContracts 
+            Contract.Assume(scriptLines != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("scriptLines", scriptLines);
             Guard.AgainstNullArgument("context", context);
 
@@ -110,6 +143,11 @@ namespace ScriptCs
 
         protected virtual void InsertLineDirective(string path, List<string> fileLines)
         {
+            #region CodeContracts 
+            Contract.Requires(fileLines != null); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= fileLines.Count); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("fileLines", fileLines);
 
             var bodyIndex = fileLines.FindIndex(line => IsNonDirectiveLine(line) && !IsUsingLine(line));
@@ -134,6 +172,11 @@ namespace ScriptCs
 
         private bool IsNonDirectiveLine(string line)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._lineProcessors != null); // Suggested By ReviewBot 
+            Contract.Ensures(line.Trim() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var directiveLineProcessors =
                 _lineProcessors.OfType<IDirectiveLineProcessor>();
 
@@ -143,6 +186,13 @@ namespace ScriptCs
         private static bool IsUsingLine(string line)
         {
             return line.TrimStart(' ').StartsWith("using ") && !line.Contains("{") && line.Contains(";");
+        }
+
+        [ContractInvariantMethod]
+        private void FilePreProcessorObjectInvariantMethod()
+        {
+            Contract.Invariant(this._fileSystem != null); // Suggested By ReviewBot 
+            Contract.Invariant(this._logger != null); // Suggested By ReviewBot 
         }
     }
 }

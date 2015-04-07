@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Versioning;
 using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -36,6 +37,10 @@ namespace ScriptCs
 
         private void SetVersionFromString(string stringVersion)
         {
+            #region CodeContracts 
+            Contract.Ensures(this.Version != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (string.IsNullOrWhiteSpace(stringVersion))
             {
                 Version = new Version();

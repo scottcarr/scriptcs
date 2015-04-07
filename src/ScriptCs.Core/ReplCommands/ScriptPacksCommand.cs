@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using ScriptCs.Contracts;
 using ScriptCs.Extensions;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs.ReplCommands
 {
@@ -14,21 +15,46 @@ namespace ScriptCs.ReplCommands
 
         public ScriptPacksCommand(IConsole console)
         {
+            #region CodeContracts 
+            Contract.Ensures(console == this._console); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             _console = console;
         }
 
         public string Description
         {
-            get { return "Displays information about script packs available in the REPL session"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"Displays information about script packs available in the REPL session"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "Displays information about script packs available in the REPL session";
+            }
         }
 
         public string CommandName
         {
-            get { return "scriptpacks"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"scriptpacks"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "scriptpacks";
+            }
         }
 
         public object Execute(IRepl repl, object[] args)
         {
+            #region CodeContracts 
+            Contract.Ensures(((ScriptCs.Contracts.IScriptExecutor)repl).ScriptPackSession != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<System.Object>() == null); // Suggested By ReviewBot 
+            Contract.Assume(repl != null); // Suggested By ReviewBot 
+            Contract.Assume(((ScriptCs.Contracts.IScriptExecutor)repl).ScriptPackSession != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var packContexts = repl.ScriptPackSession.Contexts;
 
             if (packContexts.IsNullOrEmpty())
@@ -58,6 +84,10 @@ namespace ScriptCs.ReplCommands
 
         private void PrintInColor(string text)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var originalColor = _console.ForegroundColor;
             _console.ForegroundColor = ConsoleColor.Yellow;
             _console.WriteLine(text);
@@ -111,6 +141,11 @@ namespace ScriptCs.ReplCommands
 
         private string GetPrintableType(Type type, string[] importedNamespaces)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            Contract.Ensures(type.Name != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (type.Name == "Void")
             {
                 return "void";
@@ -169,6 +204,14 @@ namespace ScriptCs.ReplCommands
 
         private string BuildGeneric(Type type, string[] importedNamespaces)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            Contract.Ensures(type.GetGenericArguments() != null); // Suggested By ReviewBot 
+            Contract.Ensures(type.Name != null); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= type.Name.Length); // Suggested By ReviewBot 
+            Contract.Ensures(0 <= type.GetGenericArguments().Length); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var baseName = type.Name.Substring(0, type.Name.IndexOf("`", StringComparison.Ordinal));
             var genericDefinition = new StringBuilder(string.Format("{0}<", baseName));
             var firstArgument = true;

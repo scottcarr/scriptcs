@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 //===============================================================================
 // LibLog
 //
@@ -56,7 +57,7 @@ namespace ScriptCs.Logging
         /// 
         /// To check IsEnabled call Log with only LogLevel and check the return value, no event will be written.
         /// </remarks>
-        bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters );
+        bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters);
     }
 
     /// <summary>
@@ -76,48 +77,80 @@ namespace ScriptCs.Logging
     {
         public static bool IsDebugEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Debug, null);
         }
 
         public static bool IsErrorEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Error, null);
         }
 
         public static bool IsFatalEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Fatal, null);
         }
 
         public static bool IsInfoEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Info, null);
         }
 
         public static bool IsTraceEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Trace, null);
         }
 
         public static bool IsWarnEnabled(this ILog logger)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             return logger.Log(LogLevel.Warn, null);
         }
 
         public static void Debug(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             logger.Log(LogLevel.Debug, messageFunc);
         }
 
         public static void Debug(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsDebugEnabled())
             {
                 logger.Log(LogLevel.Debug, message.AsFunc());
@@ -126,6 +159,10 @@ namespace ScriptCs.Logging
 
         public static void DebugFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsDebugEnabled())
             {
                 logger.LogFormat(LogLevel.Debug, message, args);
@@ -134,6 +171,10 @@ namespace ScriptCs.Logging
 
         public static void DebugException(this ILog logger, string message, Exception exception)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsDebugEnabled())
             {
                 logger.Log(LogLevel.Debug, message.AsFunc(), exception);
@@ -143,6 +184,10 @@ namespace ScriptCs.Logging
 
         public static void DebugException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsDebugEnabled())
             {
                 logger.Log(LogLevel.Debug, message.AsFunc(), exception, formatParams);
@@ -151,11 +196,19 @@ namespace ScriptCs.Logging
 
         public static void Error(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             logger.Log(LogLevel.Error, messageFunc);
         }
 
         public static void Error(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsErrorEnabled())
             {
                 logger.Log(LogLevel.Error, message.AsFunc());
@@ -164,6 +217,10 @@ namespace ScriptCs.Logging
 
         public static void ErrorFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsErrorEnabled())
             {
                 logger.LogFormat(LogLevel.Error, message, args);
@@ -172,6 +229,10 @@ namespace ScriptCs.Logging
 
         public static void ErrorException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsErrorEnabled())
             {
                 logger.Log(LogLevel.Error, message.AsFunc(), exception, formatParams);
@@ -180,11 +241,19 @@ namespace ScriptCs.Logging
 
         public static void Fatal(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             logger.Log(LogLevel.Fatal, messageFunc);
         }
 
         public static void Fatal(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsFatalEnabled())
             {
                 logger.Log(LogLevel.Fatal, message.AsFunc());
@@ -193,6 +262,10 @@ namespace ScriptCs.Logging
 
         public static void FatalFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsFatalEnabled())
             {
                 logger.LogFormat(LogLevel.Fatal, message, args);
@@ -201,6 +274,10 @@ namespace ScriptCs.Logging
 
         public static void FatalException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsFatalEnabled())
             {
                 logger.Log(LogLevel.Fatal, message.AsFunc(), exception, formatParams);
@@ -209,12 +286,20 @@ namespace ScriptCs.Logging
 
         public static void Info(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             logger.Log(LogLevel.Info, messageFunc);
         }
 
         public static void Info(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsInfoEnabled())
             {
                 logger.Log(LogLevel.Info, message.AsFunc());
@@ -223,6 +308,10 @@ namespace ScriptCs.Logging
 
         public static void InfoFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsInfoEnabled())
             {
                 logger.LogFormat(LogLevel.Info, message, args);
@@ -231,6 +320,10 @@ namespace ScriptCs.Logging
 
         public static void InfoException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsInfoEnabled())
             {
                 logger.Log(LogLevel.Info, message.AsFunc(), exception, formatParams);
@@ -239,12 +332,20 @@ namespace ScriptCs.Logging
 
         public static void Trace(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             logger.Log(LogLevel.Trace, messageFunc);
         }
 
         public static void Trace(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsTraceEnabled())
             {
                 logger.Log(LogLevel.Trace, message.AsFunc());
@@ -253,6 +354,10 @@ namespace ScriptCs.Logging
 
         public static void TraceFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsTraceEnabled())
             {
                 logger.LogFormat(LogLevel.Trace, message, args);
@@ -261,6 +366,10 @@ namespace ScriptCs.Logging
 
         public static void TraceException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsTraceEnabled())
             {
                 logger.Log(LogLevel.Trace, message.AsFunc(), exception, formatParams);
@@ -269,12 +378,20 @@ namespace ScriptCs.Logging
 
         public static void Warn(this ILog logger, Func<string> messageFunc)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             GuardAgainstNullLogger(logger);
             logger.Log(LogLevel.Warn, messageFunc);
         }
 
         public static void Warn(this ILog logger, string message)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsWarnEnabled())
             {
                 logger.Log(LogLevel.Warn, message.AsFunc());
@@ -283,6 +400,10 @@ namespace ScriptCs.Logging
 
         public static void WarnFormat(this ILog logger, string message, params object[] args)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsWarnEnabled())
             {
                 logger.LogFormat(LogLevel.Warn, message, args);
@@ -291,6 +412,10 @@ namespace ScriptCs.Logging
 
         public static void WarnException(this ILog logger, string message, Exception exception, params object[] formatParams)
         {
+            #region CodeContracts 
+            Contract.Requires(logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (logger.IsWarnEnabled())
             {
                 logger.Log(LogLevel.Warn, message.AsFunc(), exception, formatParams);
@@ -313,6 +438,10 @@ namespace ScriptCs.Logging
         // Avoid the closure allocation, see https://gist.github.com/AArnott/d285feef75c18f6ecd2b
         private static Func<T> AsFunc<T>(this T value) where T : class
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Func<T>>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return value.Return;
         }
 
@@ -322,6 +451,7 @@ namespace ScriptCs.Logging
         }
     }
 
+    [ContractClass(typeof(ILogProviderContracts))]
     /// <summary>
     /// Represents a way to get a <see cref="ILog"/>
     /// </summary>
@@ -366,6 +496,10 @@ namespace ScriptCs.Logging
         /// <returns>An instance of <see cref="ILog"/></returns>
         public static ILog For<T>()
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return GetLogger(typeof(T));
         }
 
@@ -376,6 +510,10 @@ namespace ScriptCs.Logging
         /// <returns>An instance of <see cref="ILog"/></returns>
         public static ILog GetCurrentClassLogger()
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var stackFrame = new StackFrame(1, false);
             return GetLogger(stackFrame.GetMethod().DeclaringType);
         }
@@ -388,6 +526,13 @@ namespace ScriptCs.Logging
         /// <returns>An instance of <see cref="ILog"/></returns>
         public static ILog GetLogger(Type type)
         {
+            #region CodeContracts 
+            Contract.Requires(type != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() != null); // Suggested By ReviewBot 
+            Contract.Ensures(type.FullName != null); // Suggested By ReviewBot 
+            Contract.Ensures(!string.IsNullOrEmpty(type.FullName)); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return GetLogger(type.FullName);
         }
 
@@ -398,6 +543,10 @@ namespace ScriptCs.Logging
         /// <returns>An instance of <see cref="ILog"/></returns>
         public static ILog GetLogger(string name)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             ILogProvider logProvider = _currentLogProvider ?? ResolveLogProvider();
             return logProvider == null ? new NoOpLogger() : (ILog)new LoggerExecutionWrapper(logProvider.GetLogger(name));
         }
@@ -413,7 +562,7 @@ namespace ScriptCs.Logging
 
         public static IDisposable OpenNestedConext(string message)
         {
-            if(_currentLogProvider == null)
+            if (_currentLogProvider == null)
             {
                 throw new InvalidOperationException(NullLogProvider);
             }
@@ -474,6 +623,10 @@ namespace ScriptCs.Logging
         {
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
             {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == false); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 return false;
             }
         }
@@ -486,16 +639,32 @@ namespace ScriptCs.Logging
 
         internal LoggerExecutionWrapper(ILog logger)
         {
+            #region CodeContracts 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             _logger = logger;
         }
 
         public ILog WrappedLogger
         {
-            get { return _logger; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() == this._logger); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _logger;
+            }
         }
 
         public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._logger != null); // Suggested By ReviewBot 
+            Contract.Assume(this._logger != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (messageFunc == null)
             {
                 return _logger.Log(logLevel, null);
@@ -514,6 +683,34 @@ namespace ScriptCs.Logging
                 return null;
             };
             return _logger.Log(logLevel, wrappedMessageFunc, exception, formatParameters);
+        }
+
+        [ContractInvariantMethod]
+        private void LoggerExecutionWrapperObjectInvariantMethod()
+        {
+            Contract.Invariant(this._logger != null); // Suggested By ReviewBot 
+        }
+    }
+    [ContractClassFor(typeof(ILogProvider))]
+    internal abstract class ILogProviderContracts : ILogProvider
+    {
+        public global::ScriptCs.Logging.ILog GetLogger(System.String name)
+        {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<ScriptCs.Logging.ILog>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
+            throw new global::System.NotImplementedException();
+        }
+
+        public global::System.IDisposable OpenMappedContext(System.String key, System.String value)
+        {
+            throw new global::System.NotImplementedException();
+        }
+
+        public global::System.IDisposable OpenNestedContext(System.String message)
+        {
+            throw new global::System.NotImplementedException();
         }
     }
 }
@@ -539,21 +736,36 @@ namespace ScriptCs.Logging.LogProviders
 
         protected LogProviderBase()
         {
-            _lazyOpenNdcMethod 
+            #region CodeContracts 
+            Contract.Ensures(this._lazyOpenNdcMethod != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._lazyOpenMdcMethod != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
+            _lazyOpenNdcMethod
                 = new Lazy<OpenNdc>(GetOpenNdcMethod);
             _lazyOpenMdcMethod
                = new Lazy<OpenMdc>(GetOpenMdcMethod);
         }
 
         public abstract ILog GetLogger(string name);
-        
+
         public IDisposable OpenNestedContext(string message)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._lazyOpenNdcMethod.Value != null); // Suggested By ReviewBot 
+            Contract.Assume(this._lazyOpenNdcMethod.Value != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return _lazyOpenNdcMethod.Value(message);
         }
 
         public IDisposable OpenMappedContext(string key, string value)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._lazyOpenMdcMethod.Value != null); // Suggested By ReviewBot 
+            Contract.Assume(this._lazyOpenMdcMethod.Value != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return _lazyOpenMdcMethod.Value(key, value);
         }
 
@@ -584,12 +796,23 @@ namespace ScriptCs.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.NLogLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
         public override ILog GetLogger(string name)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return new NLogLogger(_getLoggerByNameDelegate(name));
         }
 
@@ -664,7 +887,7 @@ namespace ScriptCs.Logging.LogProviders
                 }
                 messageFunc = LogMessageFormatter.SimulateStructuredLogging(messageFunc, formatParameters);
 
-                if(exception != null)
+                if (exception != null)
                 {
                     return LogException(logLevel, messageFunc, exception);
                 }
@@ -785,6 +1008,12 @@ namespace ScriptCs.Logging.LogProviders
                 }
             }
         }
+
+        [ContractInvariantMethod]
+        private void NLogLogProviderObjectInvariantMethod()
+        {
+            Contract.Invariant(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+        }
     }
 
     internal class Log4NetLogProvider : LogProviderBase
@@ -803,12 +1032,23 @@ namespace ScriptCs.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.Log4NetLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
         public override ILog GetLogger(string name)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return new Log4NetLogger(_getLoggerByNameDelegate(name));
         }
 
@@ -991,6 +1231,12 @@ namespace ScriptCs.Logging.LogProviders
                 }
             }
         }
+
+        [ContractInvariantMethod]
+        private void Log4NetLogProviderObjectInvariantMethod()
+        {
+            Contract.Invariant(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+        }
     }
 
     internal class EntLibLogProvider : LogProviderBase
@@ -1028,7 +1274,14 @@ namespace ScriptCs.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.EntLibLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
@@ -1091,8 +1344,12 @@ namespace ScriptCs.Logging.LogProviders
         private static MemberInitExpression GetWriteLogExpression(Expression message,
             Expression severityParameter, ParameterExpression logNameParameter)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Linq.Expressions.MemberInitExpression>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var entryType = LogEntryType;
-            MemberInitExpression memberInit = Expression.MemberInit(Expression.New(entryType), new []
+            MemberInitExpression memberInit = Expression.MemberInit(Expression.New(entryType), new[]
             {
                 Expression.Bind(entryType.GetPropertyPortable("Message"), message),
                 Expression.Bind(entryType.GetPropertyPortable("Severity"), severityParameter),
@@ -1115,6 +1372,12 @@ namespace ScriptCs.Logging.LogProviders
 
             internal EntLibLogger(string loggerName, Action<string, string, int> writeLog, Func<string, int, bool> shouldLog)
             {
+                #region CodeContracts 
+                Contract.Ensures(loggerName == this._loggerName); // Suggested By ReviewBot 
+                Contract.Ensures(writeLog == this._writeLog); // Suggested By ReviewBot 
+                Contract.Ensures(shouldLog == this._shouldLog); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 _loggerName = loggerName;
                 _writeLog = writeLog;
                 _shouldLog = shouldLog;
@@ -1122,6 +1385,10 @@ namespace ScriptCs.Logging.LogProviders
 
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
             {
+                #region CodeContracts 
+                Contract.Assume((messageFunc != null || this._shouldLog != null)); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 var severity = MapSeverity(logLevel);
                 if (messageFunc == null)
                 {
@@ -1140,6 +1407,11 @@ namespace ScriptCs.Logging.LogProviders
 
             public bool LogException(LogLevel logLevel, Func<string> messageFunc, Exception exception)
             {
+                #region CodeContracts 
+                Contract.Ensures(this._writeLog != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.Boolean>() == true); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 var severity = MapSeverity(logLevel);
                 var message = messageFunc() + Environment.NewLine + exception;
                 _writeLog(_loggerName, message, severity);
@@ -1162,6 +1434,12 @@ namespace ScriptCs.Logging.LogProviders
                         return TraceEventTypeValues.Verbose;
                 }
             }
+
+            [ContractInvariantMethod]
+            private void EntLibLoggerObjectInvariantMethod()
+            {
+                Contract.Invariant(this._writeLog != null); // Suggested By ReviewBot 
+            }
         }
     }
 
@@ -1181,12 +1459,23 @@ namespace ScriptCs.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.SerilogLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
         public override ILog GetLogger(string name)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return new SerilogLogger(_getLoggerByNameDelegate(name));
         }
 
@@ -1228,7 +1517,7 @@ namespace ScriptCs.Logging.LogProviders
                     valueParam,
                     destructureObjectParam)
                 .Compile();
-            
+
             return (key, value) => pushProperty(key, value, false);
         }
 
@@ -1239,6 +1528,10 @@ namespace ScriptCs.Logging.LogProviders
 
         private static Func<string, object> GetForContextMethodCall()
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Func<System.String, System.Object>>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Type logManagerType = GetLogManagerType();
             MethodInfo method = logManagerType.GetMethodPortable("ForContext", new[] { typeof(string), typeof(object), typeof(bool) });
             ParameterExpression propertyNameParam = Expression.Parameter(typeof(string), "propertyName");
@@ -1246,7 +1539,7 @@ namespace ScriptCs.Logging.LogProviders
             ParameterExpression destructureObjectsParam = Expression.Parameter(typeof(bool), "destructureObjects");
             MethodCallExpression methodCall = Expression.Call(null, method, new Expression[]
             {
-                propertyNameParam, 
+                propertyNameParam,
                 valueParam,
                 destructureObjectsParam
             });
@@ -1300,7 +1593,7 @@ namespace ScriptCs.Logging.LogProviders
                 ParameterExpression propertyValuesParam = Expression.Parameter(typeof(object[]));
                 MethodCallExpression writeMethodExp = Expression.Call(instanceCast, writeMethodInfo, levelCast, messageParam, propertyValuesParam);
                 var expression = Expression.Lambda<Action<object, object, string, object[]>>(
-                    writeMethodExp, 
+                    writeMethodExp,
                     instanceParam,
                     levelParam,
                     messageParam,
@@ -1312,7 +1605,7 @@ namespace ScriptCs.Logging.LogProviders
                 MethodInfo writeExceptionMethodInfo = loggerType.GetMethodPortable("Write", new[]
                 {
                     logEventTypeType,
-                    typeof(Exception), 
+                    typeof(Exception),
                     typeof(string),
                     typeof(object[])
                 });
@@ -1325,7 +1618,7 @@ namespace ScriptCs.Logging.LogProviders
                     messageParam,
                     propertyValuesParam);
                 WriteException = Expression.Lambda<Action<object, object, Exception, string, object[]>>(
-                    writeMethodExp, 
+                    writeMethodExp,
                     instanceParam,
                     levelParam,
                     exceptionParam,
@@ -1335,6 +1628,10 @@ namespace ScriptCs.Logging.LogProviders
 
             internal SerilogLogger(object logger)
             {
+                #region CodeContracts 
+                Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 _logger = logger;
             }
 
@@ -1447,6 +1744,12 @@ namespace ScriptCs.Logging.LogProviders
                 return false;
             }
         }
+
+        [ContractInvariantMethod]
+        private void SerilogLogProviderObjectInvariantMethod()
+        {
+            Contract.Invariant(this._getLoggerByNameDelegate != null); // Suggested By ReviewBot 
+        }
     }
 
     internal class LoupeLogProvider : LogProviderBase
@@ -1489,7 +1792,14 @@ namespace ScriptCs.Logging.LogProviders
         /// </value>
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.LoupeLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
@@ -1518,7 +1828,7 @@ namespace ScriptCs.Logging.LogProviders
                 "Write",
                 new[]
                 {
-                    logMessageSeverityType, typeof(string), typeof(int), typeof(Exception), typeof(bool), 
+                    logMessageSeverityType, typeof(string), typeof(int), typeof(Exception), typeof(bool),
                     logWriteModeType, typeof(string), typeof(string), typeof(string), typeof(string), typeof(object[])
                 });
 
@@ -1536,6 +1846,12 @@ namespace ScriptCs.Logging.LogProviders
 
             internal LoupeLogger(string category, WriteDelegate logWriteDelegate)
             {
+                #region CodeContracts 
+                Contract.Ensures(this._skipLevel == 1); // Suggested By ReviewBot 
+                Contract.Ensures(category == this._category); // Suggested By ReviewBot 
+                Contract.Ensures(logWriteDelegate == this._logWriteDelegate); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 _category = category;
                 _logWriteDelegate = logWriteDelegate;
                 _skipLevel = 1;
@@ -1543,6 +1859,11 @@ namespace ScriptCs.Logging.LogProviders
 
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
             {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == true); // Suggested By ReviewBot 
+                Contract.Assume((messageFunc == null || this._logWriteDelegate != null)); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 if (messageFunc == null)
                 {
                     //nothing to log..
@@ -1615,7 +1936,7 @@ namespace ScriptCs.Logging.LogProviders
         private static readonly Action<int> SetConsoleForeground;
         private static bool _providerIsAvailableOverride = true;
         private static readonly IDictionary<LogLevel, int> Colors;
- 
+
         static ColouredConsoleLogProvider()
         {
             ConsoleType = Type.GetType("System.Console");
@@ -1669,16 +1990,27 @@ namespace ScriptCs.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return _providerIsAvailableOverride; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == ScriptCs.Logging.LogProviders.ColouredConsoleLogProvider._providerIsAvailableOverride); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return _providerIsAvailableOverride;
+            }
             set { _providerIsAvailableOverride = value; }
         }
 
         protected static string DefaultMessageFormatter(string loggerName, LogLevel level, object message, Exception e)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture));
             stringBuilder.Append(" ");
-            
+
             // Append a readable representation of the log level
             stringBuilder.Append(("[" + level.ToString().ToUpper() + "]").PadRight(8));
             stringBuilder.Append("(" + loggerName + ") ");
@@ -1738,6 +2070,13 @@ namespace ScriptCs.Logging.LogProviders
             public ColouredConsoleLogger(string name, Action<string> write,
                 Func<int> getForeground, Action<int> setForeground)
             {
+                #region CodeContracts 
+                Contract.Ensures(name == this._name); // Suggested By ReviewBot 
+                Contract.Ensures(write == this._write); // Suggested By ReviewBot 
+                Contract.Ensures(getForeground == this._getForeground); // Suggested By ReviewBot 
+                Contract.Ensures(setForeground == this._setForeground); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 _name = name;
                 _write = write;
                 _getForeground = getForeground;
@@ -1747,6 +2086,10 @@ namespace ScriptCs.Logging.LogProviders
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception,
                 params object[] formatParameters)
             {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.Boolean>() == true); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 if (messageFunc == null)
                 {
                     return true;
@@ -1760,6 +2103,11 @@ namespace ScriptCs.Logging.LogProviders
 
             protected void Write(LogLevel logLevel, string message, Exception e = null)
             {
+                #region CodeContracts 
+                Contract.Ensures(this._write != null); // Suggested By ReviewBot 
+                Contract.Assume(ScriptCs.Logging.LogProviders.ColouredConsoleLogProvider.MessageFormatter != null); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
                 var formattedMessage = MessageFormatter(this._name, logLevel, message, e);
                 int color;
 
@@ -1780,6 +2128,12 @@ namespace ScriptCs.Logging.LogProviders
                 {
                     _write(formattedMessage);
                 }
+            }
+
+            [ContractInvariantMethod]
+            private void ColouredConsoleLoggerObjectInvariantMethod()
+            {
+                Contract.Invariant(this._write != null); // Suggested By ReviewBot 
             }
         }
 
@@ -1823,7 +2177,7 @@ namespace ScriptCs.Logging.LogProviders
         /// <returns></returns>
         public static Func<string> SimulateStructuredLogging(Func<string> messageBuilder, object[] formatParameters)
         {
-            if(formatParameters == null)
+            if (formatParameters == null)
             {
                 return messageBuilder;
             }
@@ -1835,7 +2189,7 @@ namespace ScriptCs.Logging.LogProviders
                 foreach (Match match in Pattern.Matches(targetMessage))
                 {
                     int notUsed;
-                    if (!int.TryParse(match.Value.Substring(1, match.Value.Length -2), out notUsed))
+                    if (!int.TryParse(match.Value.Substring(1, match.Value.Length - 2), out notUsed))
                     {
                         targetMessage = ReplaceFirst(targetMessage, match.Value,
                             "{" + argumentIndex++ + "}");
@@ -1854,6 +2208,10 @@ namespace ScriptCs.Logging.LogProviders
 
         private static string ReplaceFirst(string text, string search, string replace)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             int pos = text.IndexOf(search, StringComparison.Ordinal);
             if (pos < 0)
             {
@@ -1913,6 +2271,12 @@ namespace ScriptCs.Logging.LogProviders
 
         internal static Assembly GetAssemblyPortable(this Type type)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Reflection.Assembly>() != null); // Suggested By ReviewBot 
+            Contract.Ensures(type.Assembly != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<System.Reflection.Assembly>() == type.Assembly); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
 #if LIBLOG_PORTABLE
             return type.GetTypeInfo().Assembly;
 #else
@@ -1927,12 +2291,16 @@ namespace ScriptCs.Logging.LogProviders
 
         public DisposableAction(Action onDispose = null)
         {
+            #region CodeContracts 
+            Contract.Ensures(onDispose == this._onDispose); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             _onDispose = onDispose;
         }
 
         public void Dispose()
         {
-            if(_onDispose != null)
+            if (_onDispose != null)
             {
                 _onDispose();
             }

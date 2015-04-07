@@ -1,28 +1,56 @@
-﻿using ScriptCs.Contracts;
+using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs.ReplCommands
 {
-    public class ExitCommand : IReplCommand 
+    public class ExitCommand : IReplCommand
     {
         private readonly IConsole _console;
 
         public string Description
         {
-            get { return "Exits the REPL"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"Exits the REPL"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "Exits the REPL";
+            }
         }
 
         public string CommandName
         {
-            get { return "exit"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"exit"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "exit";
+            }
         }
 
         public ExitCommand(IConsole console)
         {
+            // SCOTT: VALID NEW CONTRACTS
+            #region CodeContracts 
+            Contract.Requires(console != null); // Suggested By ReviewBot 
+            Contract.Ensures(console == this._console); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
+            // in other commands there's a null check here, but here it's missing
             _console = console;
         }
 
         public object Execute(IRepl repl, object[] args)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.Object>() == null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("repl", repl);
 
             var response = string.Empty;
@@ -41,6 +69,12 @@ namespace ScriptCs.ReplCommands
             }
 
             return null;
+        }
+
+        [ContractInvariantMethod]
+        private void ExitCommandObjectInvariantMethod()
+        {
+            Contract.Invariant(this._console != null); // Suggested By ReviewBot 
         }
     }
 }

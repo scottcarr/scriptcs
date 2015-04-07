@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs.ReplCommands
 {
@@ -9,6 +10,11 @@ namespace ScriptCs.ReplCommands
 
         public CwdCommand(IConsole console)
         {
+            #region CodeContracts 
+            Contract.Requires(console != null); // Suggested By ReviewBot 
+            Contract.Ensures(console == this._console); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("console", console);
 
             _console = console;
@@ -16,16 +22,40 @@ namespace ScriptCs.ReplCommands
 
         public string Description
         {
-            get { return "Displays the current working directory."; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"Displays the current working directory."); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "Displays the current working directory.";
+            }
         }
 
         public string CommandName
         {
-            get { return "cwd"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+                Contract.Ensures(Contract.Result<System.String>() == @"cwd"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "cwd";
+            }
         }
 
         public object Execute(IRepl repl, object[] args)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._console != null); // Suggested By ReviewBot 
+            Contract.Ensures(repl.FileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<System.Object>() == null); // Suggested By ReviewBot 
+            Contract.Assume(repl != null); // Suggested By ReviewBot 
+            Contract.Assume(repl.FileSystem != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("repl", repl);
 
             var dir = repl.FileSystem.CurrentDirectory;
@@ -42,6 +72,12 @@ namespace ScriptCs.ReplCommands
             }
 
             return null;
+        }
+
+        [ContractInvariantMethod]
+        private void CwdCommandObjectInvariantMethod()
+        {
+            Contract.Invariant(this._console != null); // Suggested By ReviewBot 
         }
     }
 }

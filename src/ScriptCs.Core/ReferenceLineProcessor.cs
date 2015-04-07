@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+using System;
 using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -14,21 +14,46 @@ namespace ScriptCs
 
         public ReferenceLineProcessor(IFileSystem fileSystem)
         {
+            // SCOTT: VALID NEW CONTRACTS
+            #region CodeContracts 
+            Contract.Requires(fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             _fileSystem = fileSystem;
         }
 
         protected override string DirectiveName
         {
-            get { return "r"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"r"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "r";
+            }
         }
 
         protected override BehaviorAfterCode BehaviorAfterCode
         {
-            get { return BehaviorAfterCode.Throw; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<ScriptCs.Contracts.BehaviorAfterCode>() == ScriptCs.Contracts.BehaviorAfterCode.Throw); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return BehaviorAfterCode.Throw;
+            }
         }
 
         protected override bool ProcessLine(IFileParser parser, FileParserContext context, string line)
         {
+            #region CodeContracts 
+            Contract.Ensures(this._fileSystem != null); // Suggested By ReviewBot 
+            Contract.Ensures(Contract.Result<System.Boolean>() == true); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("context", context);
 
             var argument = GetDirectiveArgument(line);
@@ -43,6 +68,12 @@ namespace ScriptCs
             }
 
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ReferenceLineProcessorObjectInvariantMethod()
+        {
+            Contract.Invariant(this._fileSystem != null); // Suggested By ReviewBot 
         }
     }
 }

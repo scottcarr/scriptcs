@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using ScriptCs.Contracts;
 using ScriptCs.Logging;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -18,6 +19,14 @@ namespace ScriptCs
 
         public ScriptLibraryComposer(IFileSystem fileSystem, IFilePreProcessor preProcessor, IPackageContainer packageContainer, IPackageAssemblyResolver packageAssemblyResolver, ILog logger)
         {
+            #region CodeContracts 
+            Contract.Ensures(fileSystem == this._fileSystem); // Suggested By ReviewBot 
+            Contract.Ensures(preProcessor == this._preProcessor); // Suggested By ReviewBot 
+            Contract.Ensures(packageContainer == this._packageContainer); // Suggested By ReviewBot 
+            Contract.Ensures(packageAssemblyResolver == this._packageAssemblyResolver); // Suggested By ReviewBot 
+            Contract.Ensures(logger == this._logger); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("fileSystem", fileSystem);
             Guard.AgainstNullArgument("preProcessor", preProcessor);
             Guard.AgainstNullArgument("packageContainer", packageContainer);
@@ -59,11 +68,22 @@ namespace ScriptCs
 
         public virtual string ScriptLibrariesFile
         {
-            get { return "ScriptLibraries.csx"; }
+            get
+            {
+                #region CodeContracts 
+                Contract.Ensures(Contract.Result<System.String>() == @"ScriptLibraries.csx"); // Suggested By ReviewBot 
+                #endregion CodeContracts 
+
+                return "ScriptLibraries.csx";
+            }
         }
 
         public void Compose(string workingDirectory, StringBuilder builder = null)
         {
+            #region CodeContracts 
+            Contract.Assume((string.IsNullOrWhiteSpace(this.ScriptLibrariesFile) || workingDirectory != null)); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             if (string.IsNullOrWhiteSpace(ScriptLibrariesFile))
             {
                 return;
@@ -109,6 +129,12 @@ namespace ScriptCs
             List<string> references,
             List<string> namespaces)
         {
+            #region CodeContracts 
+            Contract.Requires(reference != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._logger != null); // Suggested By ReviewBot 
+            Contract.Ensures(this._packageContainer != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("reference", reference);
             Guard.AgainstNullArgument("builder", builder);
             Guard.AgainstNullArgument("references", references);
@@ -143,6 +169,14 @@ namespace ScriptCs
                 references.AddRange(result.References);
                 namespaces.AddRange(result.Namespaces);
             }
+        }
+
+        [ContractInvariantMethod]
+        private void ScriptLibraryComposerObjectInvariantMethod()
+        {
+            Contract.Invariant(this._packageContainer != null); // Suggested By ReviewBot 
+            Contract.Invariant(this._logger != null); // Suggested By ReviewBot 
+            Contract.Invariant((string.IsNullOrWhiteSpace(this.ScriptLibrariesFile) || this._fileSystem != null)); // Suggested By ReviewBot 
         }
     }
 }

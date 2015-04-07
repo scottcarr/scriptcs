@@ -1,4 +1,5 @@
-﻿using ScriptCs.Contracts;
+using ScriptCs.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace ScriptCs
 {
@@ -12,6 +13,10 @@ namespace ScriptCs
 
         public bool ProcessLine(IFileParser parser, FileParserContext context, string line, bool isBeforeCode)
         {
+            #region CodeContracts 
+            Contract.Assume(line != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             Guard.AgainstNullArgument("context", context);
 
             if (!IsUsingLine(line))
@@ -35,6 +40,10 @@ namespace ScriptCs
 
         private static string GetNamespace(string line)
         {
+            #region CodeContracts 
+            Contract.Ensures(Contract.Result<System.String>() != null); // Suggested By ReviewBot 
+            #endregion CodeContracts 
+
             return line.Trim(' ')
                 .Replace(UsingString, string.Empty)
                 .Replace("\"", string.Empty)
